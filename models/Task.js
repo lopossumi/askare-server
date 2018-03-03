@@ -12,6 +12,7 @@ const mongoose = require('mongoose')
 
 const taskSchema = mongoose.Schema({
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    tasklist: { type: mongoose.Schema.Types.ObjectId, ref: 'TaskList' },
     title: {
         type: String,
         required: true
