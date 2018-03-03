@@ -7,3 +7,4 @@ Backend for askare.
 | Date       | Hours | Description
 |------------|-------|--------------
 | 3.3.2018   | 1.5h  | Project initialization
+| 3.3.2018   | 1.5h  | Mongoose (schemas + endpoints)

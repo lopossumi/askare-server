@@ -4,6 +4,12 @@ module.exports = {
         "node": true
     },
     "extends": "eslint:recommended",
+
+    //for async/await
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+
     "rules": {
         "indent": [
             "error",
@@ -28,7 +34,7 @@ module.exports = {
         ],
         "arrow-spacing": [
             "error", { "before": true, "after": true }
-        ],      
+        ],
         "no-console": 0
     }
 };
