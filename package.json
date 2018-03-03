@@ -1,0 +1,11 @@
+{
+  "name": "askare-server",
+  "version": "0.1.0",
+  "description": "RESTful api for askare",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mikko Loponen",
+  "license": "MIT"
+}
