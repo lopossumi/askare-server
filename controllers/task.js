@@ -8,14 +8,23 @@ taskRouter.get('/', async (request, response) => {
 })
 
 taskRouter.post('/', async (request, response) => {
-    const task = new Task({
-        owner: request.body.owner, // get this from token
-        title: request.body.title,
-        content: request.body.content,
-        priority: request.body.priority,
-        status: request.body.status,
-        color: request.body.color,
-    })
+    if (request.userid) {
+        const task = new Task({
+            owner: request.userid, // get this from token
+            title: request.body.title,
+            content: request.body.content,
+            priority: request.body.priority,
+            status: request.body.status,
+            color: request.body.color,
+        })
+
+        try {
+            const savedTask = await task.save()
+            return response.status(201).json(savedTask)
+        } catch (error) {
+            return response.status(500).send(error)
+        }
+    }
 })
 
 module.exports = taskRouter

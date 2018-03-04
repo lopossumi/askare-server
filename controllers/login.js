@@ -27,8 +27,8 @@ loginRouter.post('/', async (request, response) => {
         response.status(200).send({
             token,
             username: user.username,
-            name: user.name
         })
+
     } catch (exception) {
         return response.status(500).send(exception)
     }

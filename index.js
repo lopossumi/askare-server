@@ -25,9 +25,11 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/login', loginRouter)
+app.use('/api/users', userRouter)
+
+app.use(middleware.verifyUser)
 app.use('/api/tasklists', taskListRouter)
 app.use('/api/tasks', taskRouter)
-app.use('/api/users', userRouter)
 
 app.use(middleware.error)
 
