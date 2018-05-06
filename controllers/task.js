@@ -3,14 +3,14 @@ const Task = require('../models/Task')
 
 taskRouter.get('/', async (request, response) => {
     const tasks = await Task
-        .find({})
+        .find({ owner: request.userid })
     response.json(tasks)
 })
 
 taskRouter.post('/', async (request, response) => {
     if (request.userid) {
         const task = new Task({
-            owner: request.userid, // get this from token
+            owner: request.userid,
             title: request.body.title,
             content: request.body.content,
             priority: request.body.priority,

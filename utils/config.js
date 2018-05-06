@@ -10,6 +10,16 @@ if (process.env.NODE_ENV === 'test') {
     mongoUrl = process.env.TEST_MONGODB_URI
 }
 
+if (port === undefined){
+    console.log('config.js: Port is undefined. Did you forget environment variables?')
+    process.exit()
+}
+
+if (mongoUrl === undefined){
+    console.log('config.js: MongoDB URL is undefined. Did you forget environment variables?')
+    process.exit()
+}
+
 module.exports = {
     mongoUrl,
     port

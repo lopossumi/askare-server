@@ -3,7 +3,7 @@ const TaskList = require('../models/TaskList')
 
 taskListRouter.get('/', async (request, response) => {
     const taskLists = await TaskList
-        .find({})
+        .find({ owner: request.userid })
         .populate('tasks')
     response.json(taskLists)
 })

@@ -24,7 +24,7 @@ const verifyUser = (request, response, next) => {
         const decodedToken = jwt.verify(request.token, process.env.SECRET)
         request.userid = decodedToken.id
     } else {
-        request.userid = null
+        console.log('middleware.js: Received request with failed user verification')
     }
     next()
 }
