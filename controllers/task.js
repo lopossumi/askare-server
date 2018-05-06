@@ -2,6 +2,10 @@ const taskRouter = require('express').Router()
 const Task = require('../models/Task')
 
 taskRouter.get('/', async (request, response) => {
+    if (!request.userid) {
+        return response.status(401).send('Login required.')
+    }
+
     const tasks = await Task
         .find({ owner: request.userid })
     response.json(tasks)

@@ -30,6 +30,7 @@ loginRouter.post('/', async (request, response) => {
         })
 
     } catch (exception) {
+        console.log('login.js: exception ', exception)
         return response.status(500).send(exception)
     }
 })

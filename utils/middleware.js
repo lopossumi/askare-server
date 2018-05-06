@@ -25,6 +25,7 @@ const verifyUser = (request, response, next) => {
         request.userid = decodedToken.id
     } else {
         console.log('middleware.js: Received request with failed user verification')
+        request.userid = null
     }
     next()
 }
