@@ -16,7 +16,7 @@ mongoose.connect(config.mongoUrl)
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use(express.static('build'))
+//app.use(express.static('build'))   'static files not served here
 app.use(middleware.logger)
 app.use(middleware.tokenExtractor)
 

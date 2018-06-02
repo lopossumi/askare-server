@@ -17,11 +17,11 @@ taskRouter.get('/', async (request, response) => {
 taskRouter.post('/', async (request, response) => {
     if (!request.userid) {
         return response.status(401).send('Login required.')
-
     }
 
     const task = new Task({
         owner: request.userid,
+        tasklist: request.tasklist,
         title: request.body.title,
         content: request.body.content,
         priority: request.body.priority,
