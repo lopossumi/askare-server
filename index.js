@@ -13,7 +13,6 @@ const userRouter = require('./controllers/user')
 const config = require('./utils/config')
 
 mongoose.connect(config.mongoUrl)
-// mongoose.Promise = global.Promise what was this?
 
 app.use(cors())
 app.use(bodyParser.json())
