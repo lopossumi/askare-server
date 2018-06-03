@@ -14,7 +14,7 @@ taskListRouter.get('/', async (request, response) => {
 
 taskListRouter.post('/', async (request, response) => {
     if (request.userid) {
-        const tasklist = new TaskList({
+        const taskList = new TaskList({
             owner: request.userid,
             title: request.body.title,
             tasks: [],
@@ -22,8 +22,8 @@ taskListRouter.post('/', async (request, response) => {
         })
 
         try {
-            const savedTask = await tasklist.save()
-            return response.status(201).json(savedTask)
+            const savedTaskList = await taskList.save()
+            return response.status(201).json(savedTaskList)
         } catch (error) {
             return response.status(500).send(error)
         }
