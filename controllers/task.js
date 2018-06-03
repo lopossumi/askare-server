@@ -21,7 +21,7 @@ taskRouter.post('/', async (request, response) => {
 
     const task = new Task({
         owner: request.userid,
-        tasklist: request.tasklist,
+        tasklist: request.body.tasklist,
         title: request.body.title,
         content: request.body.content,
         priority: request.body.priority,
