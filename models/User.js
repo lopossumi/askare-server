@@ -13,8 +13,8 @@ const userSchema = mongoose.Schema({
     },
     email: {
         type: String,
+        select: false,
         required: true,
-        select: false
     },
     passwordHash: {
         type: String,

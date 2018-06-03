@@ -11,6 +11,21 @@ taskListRouter.get('/', async (request, response) => {
     response.json(taskLists)
 })
 
+taskListRouter.delete('/:id', async (request, response) => {
+    if (!request.userid) {
+        return response.status(401).send('Login required.')
+    }
+    try {
+        await TaskList.findByIdAndRemove(request.params.id)
+        // !!! Todo: this should also remove all tasks associated with the list!
+
+        response.status(204).end()
+    } catch (error) {
+        return response.status(500).send(error)
+    }
+})
+
+
 taskListRouter.put('/', async (request, response) => {
     if (!request.userid) {
         return response.status(401).send('Login required.')
