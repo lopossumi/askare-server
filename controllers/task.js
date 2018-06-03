@@ -15,6 +15,19 @@ taskRouter.get('/', async (request, response) => {
     }
 })
 
+
+taskRouter.delete('/:id', async (request, response) => {
+    if (!request.userid) {
+        return response.status(401).send('Login required.')
+    }
+    try {
+        await Task.findByIdAndRemove(request.params.id)
+        response.status(204).end()
+    } catch (error) {
+        return response.status(500).send(error)
+    }
+})
+
 taskRouter.post('/', async (request, response) => {
     if (!request.userid) {
         return response.status(401).send('Login required.')
