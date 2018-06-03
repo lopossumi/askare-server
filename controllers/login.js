@@ -7,8 +7,17 @@ loginRouter.post('/', async (request, response) => {
     const body = request.body
 
     try {
-        const user = await User
-            .findOne({ username: body.username }, 'username firstname lastname email passwordHash')
+        // Check if an email address was given instead of username.
+        // (both are unique, and username cannot contain @ symbol)
+        let user
+        if (request.body.username.indexOf('@') > -1) {
+            user = await User
+                .findOne({ email: body.username }, 'username firstname lastname email passwordHash')
+        } else {
+            user = await User
+                .findOne({ username: body.username }, 'username firstname lastname email passwordHash')
+        }
+
         const passwordCorrect = (user === null || !body.password) ?
             false :
             await bcrypt.compare(body.password, user.passwordHash)
