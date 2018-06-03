@@ -1,6 +1,5 @@
 const taskRouter = require('express').Router()
 const Task = require('../models/Task')
-const TaskList = require('../models/TaskList')
 
 taskRouter.get('/', async (request, response) => {
     if (!request.userid) {
@@ -45,12 +44,6 @@ taskRouter.post('/', async (request, response) => {
 
     try {
         const savedTask = await task.save()
-
-        const updatedTaskList = await TaskList.findById(savedTask.tasklist)
-        updatedTaskList.tasks = [...updatedTaskList.tasks, savedTask._id]
-
-        await TaskList.findByIdAndUpdate(savedTask.tasklist, updatedTaskList)
-
         return response.status(201).json(savedTask)
     } catch (error) {
         return response.status(500).send(error)

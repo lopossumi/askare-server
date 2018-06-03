@@ -8,6 +8,16 @@ taskListRouter.get('/', async (request, response) => {
 
     const taskLists = await TaskList
         .find({ owner: request.userid })
+    response.json(taskLists)
+})
+
+taskListRouter.put('/', async (request, response) => {
+    if (!request.userid) {
+        return response.status(401).send('Login required.')
+    }
+
+    const taskLists = await TaskList
+        .find({ owner: request.userid })
         .populate('tasks')
     response.json(taskLists)
 })
@@ -17,8 +27,7 @@ taskListRouter.post('/', async (request, response) => {
         const taskList = new TaskList({
             owner: request.userid,
             title: request.body.title,
-            tasks: [],
-            color: request.body.color,
+            color: request.body.color
         })
 
         try {
