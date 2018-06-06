@@ -12,7 +12,15 @@ const userRouter = require('./controllers/user')
 
 const config = require('./utils/config')
 
-mongoose.connect(config.mongoUrl)
+mongoose.connect(config.mongoUrl).then(
+    () => {
+        console.log('MongoDB connection established')
+    },
+    err => {
+        console.log('No connection to MongoDB.')
+        process.exit()
+    }
+)
 
 app.use(cors())
 app.use(bodyParser.json())
