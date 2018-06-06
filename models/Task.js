@@ -28,9 +28,18 @@ const taskSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    color: {
+    color: { 
         type: String
-    }
+    },
+    removed: { 
+        type: Boolean, 
+        default: false
+    },
+    modified: { 
+        type: Date, 
+        default: Date.now 
+    },
+
 })
 
 const Task = mongoose.model('Task', taskSchema)

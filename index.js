@@ -24,6 +24,10 @@ app.get('/', (req, res) => {
     res.send('<h1>askare-server</h1>')
 })
 
+app.get('/info', (req, res) => {
+    res.send('<h1>askare-server info</h1>')
+})
+
 app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
 
