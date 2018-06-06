@@ -8,6 +8,14 @@ const taskListSchema = mongoose.Schema({
     },
     color: {
         type: String
+    },
+    modified: { 
+        type: Date, 
+        default: Date.now 
+    },
+    removed: { 
+        type: Boolean, 
+        default: false
     }
 })
 
