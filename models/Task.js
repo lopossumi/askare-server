@@ -31,7 +31,7 @@ const taskSchema = mongoose.Schema({
     color: { 
         type: String
     },
-    removed: { 
+    recycled: { 
         type: Boolean, 
         default: false
     },

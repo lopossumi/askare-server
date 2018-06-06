@@ -13,7 +13,7 @@ const taskListSchema = mongoose.Schema({
         type: Date, 
         default: Date.now 
     },
-    removed: { 
+    recycled: { 
         type: Boolean, 
         default: false
     }
