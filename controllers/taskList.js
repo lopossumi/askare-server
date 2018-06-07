@@ -1,5 +1,6 @@
 const taskListRouter = require('express').Router()
 const TaskList = require('../models/TaskList')
+const Task = require('../models/Task')
 
 taskListRouter.get('/', async (request, response) => {
     if (!request.userid) {
@@ -17,7 +18,9 @@ taskListRouter.delete('/:id', async (request, response) => {
     }
     try {
         await TaskList.findByIdAndRemove(request.params.id)
-        // !!! Todo: this should also remove all tasks associated with the list!
+
+        // Also remove all tasks associated with the list
+        await Task.deleteMany({ tasklist: request.params.id })
 
         response.status(204).end()
     } catch (error) {
