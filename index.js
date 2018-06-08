@@ -9,6 +9,8 @@ const loginRouter = require('./controllers/login')
 const taskListRouter = require('./controllers/taskList')
 const taskRouter = require('./controllers/task')
 const userRouter = require('./controllers/user')
+const favicon = require('serve-favicon')
+const path = require('path')
 
 const config = require('./utils/config')
 
@@ -24,7 +26,6 @@ mongoose.connect(config.mongoUrl).then(
 
 app.use(cors())
 app.use(bodyParser.json())
-//app.use(express.static('build'))   'static files not served here
 app.use(middleware.logger)
 app.use(middleware.tokenExtractor)
 
@@ -37,11 +38,12 @@ app.get('/info', (req, res) => {
 })
 
 app.use('/api/login', loginRouter)
-app.use('/api/users', userRouter)
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 app.use(middleware.verifyUser)
 app.use('/api/tasklists', taskListRouter)
 app.use('/api/tasks', taskRouter)
+app.use('/api/users', userRouter)
 
 app.use(middleware.error)
 

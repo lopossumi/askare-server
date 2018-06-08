@@ -2,10 +2,6 @@ const taskRouter = require('express').Router()
 const Task = require('../models/Task')
 
 taskRouter.get('/', async (request, response) => {
-    if (!request.userid) {
-        return response.status(401).send('Login required.')
-    }
-
     try {
         const tasks = await Task.find({ owner: request.userid })
         response.json(tasks)
@@ -16,22 +12,27 @@ taskRouter.get('/', async (request, response) => {
 
 
 taskRouter.delete('/:id', async (request, response) => {
-    if (!request.userid) {
-        return response.status(401).send('Login required.')
-    }
     try {
-        await Task.findByIdAndRemove(request.params.id)
-        response.status(204).end()
+        const task = await Task.findById(request.params.id, 'owner')
+        if (task.owner.toString() !== request.userid) {
+            return response.status(403).send('Invalid owner.')
+        }
+
+        await Task.findByIdAndRemove(task._id)
+        return response.status(204).end()
+
     } catch (error) {
         return response.status(500).send(error)
     }
 })
 
 taskRouter.put('/:id', async (request, response) => {
-    if (!request.userid) {
-        return response.status(401).send('Login required.')
-    }
     try {
+        const task = await Task.findById(request.params.id, 'owner')
+        if (task.owner.toString() !== request.userid) {
+            return response.status(403).send('Invalid owner.')
+        }
+
         request.body.modified = Date.now()
         const edited = await Task.findByIdAndUpdate(
             request.params.id,
@@ -45,10 +46,6 @@ taskRouter.put('/:id', async (request, response) => {
 })
 
 taskRouter.post('/', async (request, response) => {
-    if (!request.userid) {
-        return response.status(401).send('Login required.')
-    }
-
     const task = new Task({
         owner: request.userid,
         tasklist: request.body.tasklist,

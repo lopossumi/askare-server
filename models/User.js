@@ -22,7 +22,10 @@ const userSchema = mongoose.Schema({
         type: String,
         select: false
     },
-    tasklists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TaskList' }]
+    showInSearch: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const User = mongoose.model('User', userSchema)

@@ -3,19 +3,17 @@ const TaskList = require('../models/TaskList')
 const Task = require('../models/Task')
 
 taskListRouter.get('/', async (request, response) => {
-    if (!request.userid) {
-        return response.status(401).send('Login required.')
-    }
-
     const taskLists = await TaskList
         .find({ owner: request.userid })
     response.json(taskLists)
 })
 
 taskListRouter.delete('/:id', async (request, response) => {
-    if (!request.userid) {
-        return response.status(401).send('Login required.')
+    const tasklist = await TaskList.findById(request.params.id, 'owner')
+    if (tasklist.owner.toString() !== request.userid) {
+        return response.status(403).send('Invalid owner.')
     }
+
     try {
         await TaskList.findByIdAndRemove(request.params.id)
 
@@ -30,30 +28,26 @@ taskListRouter.delete('/:id', async (request, response) => {
 
 
 taskListRouter.put('/', async (request, response) => {
-    if (!request.userid) {
-        return response.status(401).send('Login required.')
+    const tasklist = await TaskList.findById(request.params.id, 'owner')
+    if (tasklist.owner.toString() !== request.userid) {
+        return response.status(403).send('Invalid owner.')
     }
 
-    const taskLists = await TaskList
-        .find({ owner: request.userid })
-        .populate('tasks')
-    response.json(taskLists)
+    // Not implemented
 })
 
 taskListRouter.post('/', async (request, response) => {
-    if (request.userid) {
-        const taskList = new TaskList({
-            owner: request.userid,
-            title: request.body.title,
-            color: request.body.color
-        })
+    const taskList = new TaskList({
+        owner: request.userid,
+        title: request.body.title,
+        color: request.body.color
+    })
 
-        try {
-            const savedTaskList = await taskList.save()
-            return response.status(201).json(savedTaskList)
-        } catch (error) {
-            return response.status(500).send(error)
-        }
+    try {
+        const savedTaskList = await taskList.save()
+        return response.status(201).json(savedTaskList)
+    } catch (error) {
+        return response.status(500).send(error)
     }
 })
 

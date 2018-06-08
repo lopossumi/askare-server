@@ -23,11 +23,12 @@ const verifyUser = (request, response, next) => {
     if (request.token) {
         const decodedToken = jwt.verify(request.token, process.env.SECRET)
         request.userid = decodedToken.id
+        next()
     } else {
         console.log('middleware.js: Received request with failed user verification')
         request.userid = null
+        response.status(401).send({ error: 'Login required.' })
     }
-    next()
 }
 
 const error = (request, response) => {

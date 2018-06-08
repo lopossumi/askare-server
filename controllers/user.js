@@ -36,7 +36,8 @@ userRouter.post('/', async (request, response) => {
             firstname: body.firstname,
             lastname: body.lastname,
             email: body.email,
-            passwordHash
+            passwordHash,
+            showInSearch: body.showInSearch
         })
 
         const savedUser = await user.save()
