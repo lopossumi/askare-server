@@ -16,3 +16,4 @@ Backend for a simple notes app (work in progress). The React frontend can be fou
 | 2.6.2018   | 0.5h  | Some problems with routes. Deployed server without front-end to askare-server.herokuapp.com.
 | 3.6.2018   | 0.5h  | Email address can be used in login + can remove tasks and lists
 | 6.6.2018   | 1.0h  | Error handling; task & list model has more fields; info page for pingback
+| 8.6.2018   | 0.5h  | New user account validation
