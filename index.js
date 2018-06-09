@@ -8,6 +8,7 @@ const middleware = require('./utils/middleware')
 const loginRouter = require('./controllers/login')
 const taskListRouter = require('./controllers/taskList')
 const taskRouter = require('./controllers/task')
+const registerRouter = require('./controllers/register')
 const userRouter = require('./controllers/user')
 const favicon = require('serve-favicon')
 const path = require('path')
@@ -39,10 +40,11 @@ app.get('/info', (req, res) => {
 })
 
 app.use('/api/login', loginRouter)
-app.use('/api/users', userRouter)
+app.use('/api/register', registerRouter)
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 app.use(middleware.verifyUser)
+app.use('/api/users', userRouter)
 app.use('/api/tasklists', taskListRouter)
 app.use('/api/tasks', taskRouter)
 
