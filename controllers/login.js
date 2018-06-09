@@ -4,7 +4,8 @@ const loginRouter = require('express').Router()
 const User = require('../models/User')
 
 loginRouter.post('/', async (request, response) => {
-    const body = request.body
+    let body = request.body
+    body.username = body.username.toLowerCase()
 
     try {
         // Check if an email address was given instead of username.
@@ -36,6 +37,7 @@ loginRouter.post('/', async (request, response) => {
         response.status(200).send({
             token,
             username: user.username,
+            screenname: user.screenname || user.username,
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email

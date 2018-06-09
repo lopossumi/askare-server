@@ -4,12 +4,18 @@ const User = require('../models/User')
 
 userRouter.post('/', async (request, response) => {
     try {
-        const body = request.body
-        const usernameRegex = /^[a-zA-Z0-9]+$/
+        let body = request.body
+        const usernameRegex = /^[a-zA-Z0-9_-]+$/
         const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
+        // Store username as written to screenname; forcing username and email to lowercase (so that TestUser1 and testuser1 are the same user)
+        body.screenname = body.username
+        body.username = body.username.toLowerCase()
+        body.email = body.email.toLowerCase()
+
         if (!body.username.match(usernameRegex)) {
-            return response.status(400).send({ error: 'Invalid username. Please use only alphanumeric characters.' })
+            console.log(body.username)
+            return response.status(400).send({ error: 'Invalid username. Please use only english alphanumeric characters, hyphen and underscore.' })
         }
 
         if (!body.email.match(emailRegex)) {
@@ -33,6 +39,7 @@ userRouter.post('/', async (request, response) => {
 
         const user = new User({
             username: body.username,
+            screenname: body.screenname,
             firstname: body.firstname,
             lastname: body.lastname,
             email: body.email,
@@ -49,6 +56,21 @@ userRouter.post('/', async (request, response) => {
 })
 
 userRouter.get('/', async (request, response) => {
+    try {
+        const users = await User
+            .find({ showInSearch: true })
+        response.json(users)
+
+    } catch (error) {
+        response.status(500).send({ error: error.message })
+    }
+})
+
+userRouter.delete('/:id', async (request, response) => {
+    if (!request.userid) {
+        return response.status(401).send('Login required.')
+    }
+
     try {
         const users = await User
             .find({})

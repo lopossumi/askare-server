@@ -20,6 +20,7 @@ mongoose.connect(config.mongoUrl).then(
     },
     err => {
         console.log('No connection to MongoDB.')
+        console.log(err)
         process.exit()
     }
 )
@@ -38,12 +39,12 @@ app.get('/info', (req, res) => {
 })
 
 app.use('/api/login', loginRouter)
+app.use('/api/users', userRouter)
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 app.use(middleware.verifyUser)
 app.use('/api/tasklists', taskListRouter)
 app.use('/api/tasks', taskRouter)
-app.use('/api/users', userRouter)
 
 app.use(middleware.error)
 

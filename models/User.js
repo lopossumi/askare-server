@@ -6,6 +6,9 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    screenname:{
+        type: String
+    },
     firstname:  {
         type: String
     },
@@ -24,7 +27,8 @@ const userSchema = mongoose.Schema({
     },
     showInSearch: {
         type: Boolean,
-        default: false
+        default: false,
+        select: false
     }
 })
 
