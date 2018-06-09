@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const userRouter = require('express').Router()
 const User = require('../models/User')
+const TaskList = require('../models/TaskList')
+const Task = require('../models/Task')
 
 userRouter.post('/', async (request, response) => {
     try {
@@ -48,6 +50,21 @@ userRouter.post('/', async (request, response) => {
         })
 
         const savedUser = await user.save()
+
+        // Generate example tasklist for new user
+        const myList = new TaskList({
+            owner: savedUser._id,
+            title: 'Example list'
+        })
+        const mySavedList = await myList.save()
+        const myTask = new Task({
+            owner: savedUser._id,
+            tasklist: mySavedList._id,
+            title: 'Welcome to askare! Open me for instructions.',
+            content: 'Edit me or create a new note to start. You can use *Markdown* syntax to format your tasks:\n* Create lists\n* Make your text **bold** or *italic*\n* or create links. See the [Markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for more formatting options.',
+        })
+        await myTask.save()
+
         return response.status(201).json(savedUser)
 
     } catch (error) {
