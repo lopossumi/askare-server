@@ -27,13 +27,23 @@ taskListRouter.delete('/:id', async (request, response) => {
 })
 
 
-taskListRouter.put('/', async (request, response) => {
-    const tasklist = await TaskList.findById(request.params.id, 'owner')
-    if (tasklist.owner.toString() !== request.userid) {
-        return response.status(403).send('Invalid owner.')
-    }
+taskListRouter.put('/:id', async (request, response) => {
+    try {
+        const tasklist = await TaskList.findById(request.params.id, 'owner')
+        if (tasklist.owner.toString() !== request.userid) {
+            return response.status(403).send('Invalid owner.')
+        }
 
-    // Not implemented
+        request.body.modified = Date.now()
+        const edited = await TaskList.findByIdAndUpdate(
+            request.params.id,
+            request.body,
+            { new: true }
+        )
+        response.status(201).json(edited)
+    } catch (error) {
+        return response.status(500).send(error)
+    }
 })
 
 taskListRouter.post('/', async (request, response) => {
