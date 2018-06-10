@@ -3,12 +3,13 @@ const registerRouter = require('express').Router()
 const User = require('../models/User')
 const TaskList = require('../models/TaskList')
 const Task = require('../models/Task')
+const validationRegex = require('./rules/validationRegex')
 
 registerRouter.post('/', async (request, response) => {
     try {
         let body = request.body
-        const usernameRegex = /^[a-zA-Z0-9_-]+$/
-        const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        //const usernameRegex = /^[a-zA-Z0-9_-]+$/
+        //const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
         // Store username as written to screenname; forcing username and email to lowercase (so that TestUser1 and testuser1 are the same user)
         const screenname = body.username.toString()
@@ -18,12 +19,12 @@ registerRouter.post('/', async (request, response) => {
         body.username = body.username.toLowerCase()
         body.email = body.email.toLowerCase()
         console.log(screenname)
-        if (!body.username.match(usernameRegex)) {
+        if (!body.username.match(validationRegex.username)) {
             console.log(body.username)
             return response.status(400).send({ error: 'Invalid username. Please use only english alphanumeric characters, hyphen and underscore.' })
         }
 
-        if (!body.email.match(emailRegex)) {
+        if (!body.email.match(validationRegex.email)) {
             return response.status(400).send({ error: 'Invalid email. Please enter a valid email address.' })
         }
 

@@ -19,3 +19,5 @@ Backend for a simple notes app (work in progress). The React frontend can be fou
 | 8.6.2018   | 0.5h  | New user account validation
 | 8.6.2018   | 1.0h  | Credential refactoring
 | 9.6.2018   | 0.5h  | Username and email validation; screen name added
+| 9.6.2018   | 1.0h  | Deleting users
+| 10.6.2018  | 2.0h  | Editing account information

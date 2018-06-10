@@ -34,14 +34,17 @@ loginRouter.post('/', async (request, response) => {
 
         const token = jwt.sign(userForToken, process.env.SECRET)
 
-        response.status(200).send({
-            token,
-            username: user.username,
-            screenname: user.screenname || user.username,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email
-        })
+        response.status(200).send(
+            {
+                token,
+                _id: user._id,
+                username: user.username,
+                screenname: user.screenname || user.username,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email
+            }
+        )
 
     } catch (exception) {
         console.log('login.js: exception ', exception)
