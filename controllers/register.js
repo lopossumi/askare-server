@@ -13,9 +13,6 @@ registerRouter.post('/', async (request, response) => {
 
         // Store username as written to screenname; forcing username and email to lowercase (so that TestUser1 and testuser1 are the same user)
         const screenname = body.username.toString()
-        console.log('wtf')
-        console.log(screenname)
-        console.log(body.username)
         body.username = body.username.toLowerCase()
         body.email = body.email.toLowerCase()
         console.log(screenname)

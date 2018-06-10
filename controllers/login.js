@@ -13,10 +13,10 @@ loginRouter.post('/', async (request, response) => {
         let user
         if (request.body.username.indexOf('@') > -1) {
             user = await User
-                .findOne({ email: body.username }, 'username screenname firstname lastname email passwordHash')
+                .findOne({ email: body.username }, 'username screenname firstname lastname email passwordHash showInSearch')
         } else {
             user = await User
-                .findOne({ username: body.username }, 'username screenname firstname lastname email passwordHash')
+                .findOne({ username: body.username }, 'username screenname firstname lastname email passwordHash showInSearch')
         }
 
         const passwordCorrect = (user === null || !body.password) ?
@@ -42,7 +42,8 @@ loginRouter.post('/', async (request, response) => {
                 screenname: user.screenname || user.username,
                 firstname: user.firstname,
                 lastname: user.lastname,
-                email: user.email
+                email: user.email,
+                showInSearch: user.showInSearch
             }
         )
 
